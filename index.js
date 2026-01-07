@@ -1,15 +1,68 @@
-// Step 1: Simulate User Behavior
-// - Add event listeners for button clicks and form submissions.
-// - Use JavaScript to dynamically update the DOM based on user actions.
+// index.js
 
-// Step 2: DOM Manipulation Functions
-// - Implement functions to add, update, and remove DOM elements.
-// - Ensure all elements are dynamically created with appropriate attributes and content.
+// Adds an element with given id and content to the DOM
+function addElementToDOM(id, content) {
+  let el = document.getElementById(id);
+  if (!el) {
+    el = document.createElement('div');
+    el.id = id;
+    document.body.appendChild(el);
+  }
+  el.textContent = content;
+}
 
-// Step 3: Error Handling
-// - Display error messages in the DOM for invalid inputs or missing elements.
-// - Create reusable functions to handle common error cases.
+// Removes an element with the given id from the DOM
+function removeElementFromDOM(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.remove();
+  }
+}
 
-// Step 4: Reusable Utilities
-// - Create modular utility functions, such as createElement(tag, attributes).
-// - Ensure all functions follow DRY principles for maintainability.
+// Simulates a button click to update content of a DOM element
+function simulateClick(id, content) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('click', () => {
+    el.textContent = content;
+  });
+
+  // Trigger click programmatically
+  el.click();
+}
+
+// Handles form submission and updates the DOM element
+function handleFormSubmit(formId, displayId) {
+  const form = document.getElementById(formId);
+  const display = document.getElementById(displayId);
+  const errorMessage = document.getElementById('error-message');
+
+  if (!form || !display || !errorMessage) return;
+
+  const input = form.querySelector('input');
+  if (!input) return;
+
+  if (!input.value) {
+    errorMessage.textContent = 'Input cannot be empty';
+    errorMessage.classList.remove('hidden');
+    return;
+  }
+
+  // Clear any previous error
+  errorMessage.textContent = '';
+  errorMessage.classList.add('hidden');
+
+  // Update display with input value
+  display.textContent = input.value;
+
+  // Optionally, clear input
+  input.value = '';
+}
+
+// Export functions for Jest testing
+module.exports = {
+  addElementToDOM,
+  removeElementFromDOM,
+  simulateClick,
+  handleFormSubmit,
+};
